@@ -1,6 +1,6 @@
 import csv
 import math
-from typing import List, Tuple, Dict, Any
+from typing import List, Tuple
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -43,16 +43,19 @@ class Server:
 
         return data[start_index:end_index]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
+    def get_hyper(self, page: int = 1, page_size: int = 10):
         """
         Get the page of the dataset with hypermedia pagination
         """
-        data = self.get_page(page, page_size)
+        assert isinstance(page, int) and page > 0
+        assert isinstance(page_size, int) and page_size > 0
 
+        data = self.get_page(page, page_size)
         total_items = len(self.dataset())
+
         total_pages = math.ceil(total_items / page_size)
 
-        next_page = page + 1 if page < total_pages else None
+        next_page = page + 1 if page * page_size < total_items else None
         prev_page = page - 1 if page > 1 else None
 
         return {
