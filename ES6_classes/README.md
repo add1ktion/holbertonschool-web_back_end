@@ -1,12 +1,5 @@
 # ES6 Classes
 
-Markdown
-# ES6 Classes 🏗️
-
-This project covers the implementation of classes in JavaScript (ES6), including constructors, inheritance, static methods, and getters/setters.
-
-## Tasks 📋
-
 - **[0. You used to attend a place like this at some point](./0-classroom.js)**
   - Implement a class named `ClassRoom` that accepts one attribute named `maxStudentsSize` (Number) and assigned to `_maxStudentsSize`.
 
