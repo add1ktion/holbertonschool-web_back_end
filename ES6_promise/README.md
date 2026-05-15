@@ -1,7 +1,5 @@
 # ES6 Promises
 
-## Tasks 📋
-
 - **[0. Keep every promise you make and only make promises you can keep](./0-promise.js)**
   - Return a Promise using this prototype function `getResponseFromAPI()`.
 
