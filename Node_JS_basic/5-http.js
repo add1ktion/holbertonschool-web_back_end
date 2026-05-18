@@ -11,10 +11,8 @@ function countStudents(path) {
         return;
       }
 
-      const lines = data.split('\n').filter((line) => line.trim().length > 0);
-      if (lines.length > 0) {
-        lines.shift();
-      }
+      const lines = data.split('\n').filter((line) => line.trim());
+      lines.shift();
 
       const fields = {};
       let total = 0;
@@ -22,10 +20,8 @@ function countStudents(path) {
       lines.forEach((line) => {
         const parts = line.split(',');
         if (parts.length !== 4) return;
-
         const firstName = parts[0].trim();
         const field = parts[3].trim();
-
         if (!firstName || !field) return;
 
         total += 1;
