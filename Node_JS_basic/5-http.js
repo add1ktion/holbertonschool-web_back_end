@@ -28,11 +28,8 @@ function countStudents(path) {
       });
 
       let report = `Number of students: ${total}`;
-      const sortedFields = Object.keys(fields).sort((a, b) =>
-        a.localeCompare(b, undefined, { sensitivity: 'base' })
-      );
 
-      sortedFields.forEach((field) => {
+      Object.keys(fields).forEach((field) => {
         report += `\nNumber of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`;
       });
       resolve(report);
@@ -46,12 +43,11 @@ const app = http.createServer(async (req, res) => {
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.write('This is the list of our students\n');
     try {
       const report = await countStudents(process.argv[2]);
-      res.end(report);
+      res.end(`This is the list of our students\n${report}`);
     } catch (error) {
-      res.end(error.message);
+      res.end(`This is the list of our students\n${error.message}`);
     }
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });

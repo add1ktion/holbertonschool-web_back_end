@@ -1,14 +1,10 @@
 import express from 'express';
-import router from './routes/index.js';
+import router from './routes/index';
 
 const app = express();
 
-app.use(router);
+app.use('/', router);
 
-const PORT = 1245;
-
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT);
-}
+app.listen(1245);
 
 export default app;

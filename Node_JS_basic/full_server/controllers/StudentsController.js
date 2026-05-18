@@ -1,10 +1,10 @@
-import readDatabase from '../utils.js';
+import readDatabase from '../utils';
 
-export default class StudentsController {
-  static getAllStudents(_request, response) {
+class StudentsController {
+  static getAllStudents(request, response) {
     const databaseFile = process.argv[2];
 
-    return readDatabase(databaseFile)
+    readDatabase(databaseFile)
       .then((data) => {
         const fields = Object.keys(data).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
         let output = 'This is the list of our students';
@@ -23,12 +23,13 @@ export default class StudentsController {
   static getAllStudentsByMajor(request, response) {
     const major = request.params.major;
     if (!['CS', 'SWE'].includes(major)) {
-      return response.status(500).send('Major parameter must be CS or SWE');
+      response.status(500).send('Major parameter must be CS or SWE');
+      return;
     }
 
     const databaseFile = process.argv[2];
 
-    return readDatabase(databaseFile)
+    readDatabase(databaseFile)
       .then((data) => {
         const students = data[major] || [];
         response.status(200).send(`List: ${students.join(', ')}`);
@@ -38,3 +39,5 @@ export default class StudentsController {
       });
   }
 }
+
+export default StudentsController;

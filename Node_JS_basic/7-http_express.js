@@ -2,9 +2,8 @@ const express = require('express');
 const fs = require('fs');
 
 const app = express();
-const databaseFile = process.argv[2];
 
-function readDatabase(path) {
+function countStudents(path) {
   return new Promise((resolve, reject) => {
     fs.readFile(path, 'utf8', (error, data) => {
       if (error) {
@@ -39,19 +38,16 @@ app.get('/', (req, res) => {
 });
 
 app.get('/students', async (req, res) => {
-  const header = 'This is the list of our students\n';
   try {
-    const { total, fields } = await readDatabase(databaseFile);
-    let output = `Number of students: ${total}`;
+    const { total, fields } = await countStudents(process.argv[2]);
+    let output = `This is the list of our students\nNumber of students: ${total}`;
 
-    Object.keys(fields)
-      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
-      .forEach((field) => {
-        output += `\nNumber of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`;
-      });
-    res.send(`${header}${output}`);
+    Object.keys(fields).forEach((field) => {
+      output += `\nNumber of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`;
+    });
+    res.send(output);
   } catch (error) {
-    res.status(500).send(`${header}${error.message}`);
+    res.send(`This is the list of our students\n${error.message}`);
   }
 });
 
