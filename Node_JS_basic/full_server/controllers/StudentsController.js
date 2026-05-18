@@ -7,14 +7,7 @@ export default class StudentsController {
     return readDatabase(databaseFile)
       .then((data) => {
         const fields = Object.keys(data).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
-        let totalStudents = 0;
-
-        fields.forEach((field) => {
-          totalStudents += data[field].length;
-        });
-
         let output = 'This is the list of our students';
-        output += `\nNumber of students: ${totalStudents}`;
 
         fields.forEach((field) => {
           output += `\nNumber of students in ${field}: ${data[field].length}. List: ${data[field].join(', ')}`;
