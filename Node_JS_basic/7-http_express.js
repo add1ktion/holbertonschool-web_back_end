@@ -18,12 +18,16 @@ function readDatabase(path) {
       let total = 0;
       lines.forEach((line) => {
         const parts = line.split(',');
-        if (parts.length === 4) {
-          total += 1;
-          const field = parts[3].trim();
-          if (!fields[field]) fields[field] = [];
-          fields[field].push(parts[0].trim());
-        }
+        if (parts.length !== 4) return;
+
+        const firstName = parts[0].trim();
+        const field = parts[3].trim();
+
+        if (!firstName || !field) return;
+
+        total += 1;
+        if (!fields[field]) fields[field] = [];
+        fields[field].push(firstName);
       });
       resolve({ total, fields });
     });
