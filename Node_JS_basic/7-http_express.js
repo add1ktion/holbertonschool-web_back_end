@@ -39,34 +39,19 @@ app.get('/', (req, res) => {
 });
 
 app.get('/students', async (req, res) => {
+  const header = 'This is the list of our students\n';
   try {
     const { total, fields } = await readDatabase(databaseFile);
-    let output = 'This is the list of our students\n';
-    output += `Number of students: ${total}`;
+    let output = `Number of students: ${total}`;
 
     Object.keys(fields)
       .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
       .forEach((field) => {
         output += `\nNumber of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`;
       });
-    res.send(output);
+    res.send(`${header}${output}`);
   } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
-
-app.get('/students/:major', async (req, res) => {
-  const { major } = req.params;
-  if (major !== 'CS' && major !== 'SWE') {
-    res.status(500).send('Major parameter must be CS or SWE');
-    return;
-  }
-  try {
-    const { fields } = await readDatabase(databaseFile);
-    const list = fields[major] ? fields[major].join(', ') : '';
-    res.send(`List: ${list}`);
-  } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send(`${header}${error.message}`);
   }
 });
 
