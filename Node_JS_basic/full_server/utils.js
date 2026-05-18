@@ -8,8 +8,10 @@ export default function readDatabase(filePath) {
         return;
       }
 
-      const lines = data.split('\n').filter((line) => line.trim());
-      lines.shift();
+      const lines = data.split('\n').filter((line) => line.trim().length > 0);
+      if (lines.length > 0) {
+        lines.shift();
+      }
 
       const result = {};
 
